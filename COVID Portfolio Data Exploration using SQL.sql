@@ -100,7 +100,7 @@ as
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
 , SUM(CONVERT(int,vac.new_vaccinations)) OVER (PARTITION BY dea.Location ORDER BY dea.location, dea.Date) as RollingPeopleVaccinated
 FROM [Covid_Deaths].[dbo].[CovidDeaths] dea
-Join [Covid_Vaccinations].[dbo].[CovidVaccinations$] vac
+JOIN [Covid_Vaccinations].[dbo].[CovidVaccinations$] vac
 	On dea.location = vac.location
 	and dea.date = vac.date
 WHERE dea.continent is not null 
@@ -125,23 +125,23 @@ INSERT INTO #PercentPopulationVaccinated
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
 , SUM(CONVERT(int,vac.new_vaccinations)) OVER (PARTITION BY dea.Location ORDER BY dea.location, dea.Date) as RollingPeopleVaccinated
 From [Covid_Deaths].[dbo].[CovidDeaths] dea
-Join [Covid_Vaccinations].[dbo].[CovidVaccinations$] vac
+JOIN [Covid_Vaccinations].[dbo].[CovidVaccinations$] vac
 	On dea.location = vac.location
 	and dea.date = vac.date
 --where dea.continent is not null 
 --order by 2,3
 
-Select *, (RollingPeopleVaccinated/Population)*100 as PercentPopVaccinated
-From #PercentPopulationVaccinated
+SELECT *, (RollingPeopleVaccinated/Population)*100 as PercentPopVaccinated
+FROM #PercentPopulationVaccinated
 
 -- Creating View to store data for later visualizations
 
 CREATE VIEW PercentPopulationVaccinated as
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
 , SUM(CONVERT(int,vac.new_vaccinations)) OVER (PARTITION BY dea.Location ORDER BY dea.location, dea.Date) as RollingPeopleVaccinated
-From [Covid_Deaths].[dbo].[CovidDeaths] dea
-Join [Covid_Vaccinations].[dbo].[CovidVaccinations$] vac
+FROM [Covid_Deaths].[dbo].[CovidDeaths] dea
+JOIN [Covid_Vaccinations].[dbo].[CovidVaccinations$] vac
 	On dea.location = vac.location
 	and dea.date = vac.date
-where dea.continent is not null 
+WHERE dea.continent is not null 
 
