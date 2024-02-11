@@ -4,4 +4,7 @@ Skills used: Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, 
 
 */
 
-
+SELECT *
+FROM [Covid_Deaths].[dbo].[CovidDeaths]
+WHERE continent IS NOT NULL
+ORDER BY 3,4
